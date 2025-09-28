@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saluno – Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fceabb, #f8b500);
+      animation: bgmove 12s ease infinite;
+      background-size: 200% 200%;
+      color: #023047;
+      overflow-x: hidden;
+    }
+    @keyframes bgmove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    header {
+      text-align: center;
+      padding: 50px 20px;
+    }
+    header img {
+      max-width: 220px;
+      animation: fadeIn 2s ease forwards;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    section {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.2rem;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin: 50px auto;
+      width: 90%;
+      max-width: 1200px;
+    }
+    .flow img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      transform: scale(0.95);
+      transition: all 0.4s ease;
+    }
+    .flow img:hover {
+      transform: scale(1.03);
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0,0,0,0.1);
+      font-size: 1rem;
+    }
+    .highlight {
+      font-weight: 600;
+      color: #fb8500;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="saluno-banner-2.png" alt="Saluno Logo" />
+    <h1>We are <span class="highlight">Coming Soon</span></h1>
+    <p>Your salon & barber booking platform</p>
+  </header>
+
+  <section>
+    <h2>How Saluno Works</h2>
+    <p>Search nearby shops, choose services and stylists, request a time, and confirm instantly.  
+       Get your QR code for quick <span class="highlight">Check-In</span>!</p>
+    <div class="flow">
+      <img src="img_login_1.png" alt="Search Shops"/>
+      <img src="img_login_3.png" alt="Choose Services"/>
+      <img src="saluno-banner-3.png" alt="Book a Stylist"/>
+      <img src="saluno-banner-4.png" alt="QR Check-in"/>
+      <img src="saluno-banner-5.png" alt="Salon Experience"/>
+    </div>
+  </section>
+
+  <footer>
+    <p>📩 Contact us at <a href="mailto:info@saluno.in">info@saluno.in</a></p>
+    <p>© 2025 Saluno. All rights reserved.</p>
+  </footer>
+</body>
+</html>
