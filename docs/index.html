@@ -57,20 +57,23 @@
     header.hero { padding: 56px 0 28px; text-align: center; }
     .brand-top { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
     .brand-top .word { font-weight: 700; font-size: 1.15rem; letter-spacing: 0.3px; color: var(--dark-teal); }
+    .hero-img-wrap { position: relative; width: min(520px, 92vw); margin: 14px auto 12px; border-radius: 12px; overflow: hidden; filter: drop-shadow(0 12px 40px rgba(13,90,83,0.12)); }
+    .hero-img-wrap::after {
+      content: "";
+      position: absolute;
+      inset: -20% -40%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 70%, rgba(255,255,255,0) 100%);
+      transform: translateX(-150%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hero-img-wrap.shimmer::after { animation: shimmer 900ms linear forwards; opacity: 1; }
+    @keyframes shimmer { from { transform: translateX(-150%); } to { transform: translateX(150%); } }
     .logo-hero {
       width: min(520px, 92vw);
       margin: 14px auto 12px;
-      filter: drop-shadow(0 12px 40px rgba(13,90,83,0.12));
       border-radius: 12px;
-      transition: filter 900ms cubic-bezier(0.22, 1, 0.36, 1),
-                  opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
-      will-change: filter, opacity, transform;
-    }
-    .logo-hero.blur-out {
-      filter: blur(22px) drop-shadow(0 12px 40px rgba(13,90,83,0.12));
-      opacity: .18;
-      transform: scale(1.02);
+      display: block;
     }
     .tagline { font-size: 1.4rem; font-weight: 600; color: var(--dark-teal); opacity: 0.9; }
     .dots { color: var(--orange); padding: 0 8px; }
@@ -134,9 +137,11 @@
         <!-- If you add a standalone logo file (e.g., logo.svg), replace banner below or add it here -->
         <span class="word">Saluno</span>
       </div>
-      <!-- Large centered, animated header image -->
-      <img id="heroImage" class="logo-hero" src="header_1.png" alt="Saluno header" decoding="async" loading="eager" onerror="this.onerror=null; this.src='saluno-banner-2.png';" />
-      <p class="tagline">Book<span class="dots"> • </span>Show up<span class="dots"> • </span>Glow</p>
+      <!-- Large centered, animated header image with shimmer transition -->
+      <div class="hero-img-wrap">
+        <img id="heroImage" class="logo-hero" src="header_1.png" alt="Saluno header" decoding="async" loading="eager" onerror="this.onerror=null; this.src='saluno-banner-2.png';" />
+      </div>
+      <p class="tagline">Book<span class="dots"> • </span>Show up<span class="dots"> • </span>Glow Up</p>
       <div class="coming-soon">Coming Soon</div>
       <!-- Auto-scrolling strip of app images -->
       <div class="scroller" aria-label="Saluno app previews">
@@ -353,27 +358,43 @@
       form.reset();
     });
 
-    // Hero header image rotation with blur transition
+    // Hero header image rotation with pre-decode to avoid blanks
     (function rotateHero(){
       const hero = document.getElementById('heroImage');
+      const wrap = hero ? hero.closest('.hero-img-wrap') : null;
       if (!hero) return;
       const sources = ['header_1.png','header_2.png','header_3.png','header_4.png'];
       let i = 0;
-      // Preload
-      sources.forEach(src => { const im = new Image(); im.src = src; });
-      function next() {
-        hero.classList.add('blur-out');
-        setTimeout(() => {
-          i = (i + 1) % sources.length;
-          hero.onerror = function(){ this.onerror = null; /* skip failed */ };
-          hero.onload = function(){
-            // allow the new image to render blurred, then unblur for a smooth in
-            requestAnimationFrame(() => setTimeout(() => hero.classList.remove('blur-out'), 80));
-          };
-          hero.src = sources[i];
-        }, 550);
+
+      const ensureDecoded = (src) => new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        if (img.complete) {
+          if (img.decode) { img.decode().then(resolve).catch(resolve); } else { resolve(); }
+        } else {
+          img.onload = () => { if (img.decode) { img.decode().then(resolve).catch(resolve); } else { resolve(); } };
+          img.onerror = () => resolve();
+        }
+      });
+
+      const interval = 4200;
+      async function cycle() {
+        const nextIndex = (i + 1) % sources.length;
+        const nextSrc = sources[nextIndex];
+        // Start shimmer while we decode the next image off-DOM
+        if (wrap) { wrap.classList.add('shimmer'); }
+        await ensureDecoded(nextSrc);
+        // Swap to the fully-decoded image; then fade/blur back in
+        hero.src = nextSrc;
+        // Let the shimmer sweep complete, then remove it
+        setTimeout(() => { if (wrap) { wrap.classList.remove('shimmer'); } }, 950);
+        i = nextIndex;
+        setTimeout(cycle, interval);
       }
-      setInterval(next, 4200);
+
+      // Prime cache
+      sources.forEach(src => { const im = new Image(); im.src = src; });
+      setTimeout(cycle, interval);
     })();
   </script>
 </body>
