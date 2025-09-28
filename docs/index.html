@@ -34,6 +34,8 @@
     .container { width: min(1120px, 92%); margin: 0 auto; }
     .grid-3 { display: grid; grid-template-columns: 1fr; gap: 20px; }
     @media (min-width: 768px) { .grid-3 { grid-template-columns: repeat(3, 1fr); gap: 28px; } }
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 26px; align-items: center; }
+    @media (min-width: 900px) { .grid-2 { grid-template-columns: 1.1fr 1fr; } }
 
     /* Gradients */
     .bg-gradient-hero {
@@ -47,12 +49,29 @@
       background: linear-gradient(135deg, #0D5A53, #2CC6B8);
       color: #ffffff;
     }
+    .bg-onboard {
+      background: linear-gradient(120deg, rgba(255,176,124,0.18), rgba(44,198,184,0.12));
+    }
 
     /* Header / Hero */
     header.hero { padding: 56px 0 28px; text-align: center; }
     .brand-top { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
     .brand-top .word { font-weight: 700; font-size: 1.15rem; letter-spacing: 0.3px; color: var(--dark-teal); }
-    .logo-hero { width: min(520px, 92vw); margin: 14px auto 12px; filter: drop-shadow(0 12px 40px rgba(13,90,83,0.12)); border-radius: 12px; }
+    .logo-hero {
+      width: min(520px, 92vw);
+      margin: 14px auto 12px;
+      filter: drop-shadow(0 12px 40px rgba(13,90,83,0.12));
+      border-radius: 12px;
+      transition: filter 900ms cubic-bezier(0.22, 1, 0.36, 1),
+                  opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: filter, opacity, transform;
+    }
+    .logo-hero.blur-out {
+      filter: blur(22px) drop-shadow(0 12px 40px rgba(13,90,83,0.12));
+      opacity: .18;
+      transform: scale(1.02);
+    }
     .tagline { font-size: 1.4rem; font-weight: 600; color: var(--dark-teal); opacity: 0.9; }
     .dots { color: var(--orange); padding: 0 8px; }
     .coming-soon { margin-top: 14px; font-weight: 700; font-size: 1.6rem; color: var(--teal); }
@@ -80,6 +99,8 @@
     .card h3 { margin: 12px 0 6px; font-size: 1.1rem; color: var(--dark-teal); }
     .card p { margin: 0; color: #3b5856; font-size: 0.98rem; }
     .icon { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(44,198,184,0.12); color: var(--dark-teal); }
+    .bullet { display: flex; align-items: center; gap: 12px; margin: 10px 0; color: #2b4f4c; }
+    .bullet svg { flex: 0 0 auto; color: var(--dark-teal); }
 
     /* CTA */
     .cta { text-align: center; }
@@ -113,8 +134,8 @@
         <!-- If you add a standalone logo file (e.g., logo.svg), replace banner below or add it here -->
         <span class="word">Saluno</span>
       </div>
-      <!-- Large centered logo -->
-      <img class="logo-hero" src="saluno-banner-2.png" alt="Saluno logo" />
+      <!-- Large centered, animated header image -->
+      <img id="heroImage" class="logo-hero" src="header_1.png" alt="Saluno header" decoding="async" loading="eager" onerror="this.onerror=null; this.src='saluno-banner-2.png';" />
       <p class="tagline">Book<span class="dots"> • </span>Show up<span class="dots"> • </span>Glow</p>
       <div class="coming-soon">Coming Soon</div>
       <!-- Auto-scrolling strip of app images -->
@@ -185,6 +206,8 @@
     </div>
   </section>
 
+  
+
   <!-- Features -->
   <section id="features">
     <div class="container">
@@ -228,6 +251,44 @@
     </div>
   </section>
 
+  <!-- Get Onboard With Us -->
+  <section id="get-onboard" class="bg-onboard">
+    <div class="container">
+      <h2 class="section-title">Get Onboard with Us</h2>
+      <p class="section-subtitle">Grow your salon with smarter scheduling, real‑time client updates, and tools designed to keep chairs busy and teams focused.</p>
+      <div class="grid-2">
+        <div>
+          <div class="card" style="padding:24px;">
+            <h3 style="margin-top:0;">Why salons choose Saluno</h3>
+            <div class="bullet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 1v22M7 5h10a4 4 0 1 1 0 8H9a4 4 0 1 0 0 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Boost revenue with better visibility and instant bookings.</span>
+            </div>
+            <div class="bullet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Smart time suggestions keep your chairs full and wait times low.</span>
+            </div>
+            <div class="bullet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 7 9 18l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Reduce no‑shows with reminders and QR check‑in.</span>
+            </div>
+            <div class="bullet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Manage services, staff, and breaks from one simple dashboard.</span>
+            </div>
+            <div class="bullet">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 11a9 9 0 1 0 18 0 9 9 0 0 0-18 0Zm9-5v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Fast onboarding — go live in minutes, not weeks.</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <img src="on_board_image.png" alt="Get onboard with Saluno" style="border-radius:16px; box-shadow: var(--shadow);" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Call to Action -->
   <section id="stay-updated" class="bg-gradient-teal cta">
     <div class="container">
@@ -251,7 +312,7 @@
   <!-- Footer -->
   <footer class="bg-gradient-soft">
     <div class="container">
-      <img src="logo.png" alt="Saluno logo" class="footer-logo" loading="lazy" style="width:120px; height:auto; margin: 0 auto 12px; filter: drop-shadow(0 6px 16px rgba(0,0,0,0.12));" />
+      <img src="logo.png" alt="Saluno logo" class="footer-logo" loading="lazy" style="max-width: 160px; height:auto; display:block; margin: 0 auto 14px;" />
       <div class="footer-links">
         <a href="mailto:info@saluno.in">Contact</a>
         <a href="#" aria-disabled="true">Privacy Policy</a>
@@ -291,6 +352,29 @@
       note.style.color = '#ffffff';
       form.reset();
     });
+
+    // Hero header image rotation with blur transition
+    (function rotateHero(){
+      const hero = document.getElementById('heroImage');
+      if (!hero) return;
+      const sources = ['header_1.png','header_2.png','header_3.png','header_4.png'];
+      let i = 0;
+      // Preload
+      sources.forEach(src => { const im = new Image(); im.src = src; });
+      function next() {
+        hero.classList.add('blur-out');
+        setTimeout(() => {
+          i = (i + 1) % sources.length;
+          hero.onerror = function(){ this.onerror = null; /* skip failed */ };
+          hero.onload = function(){
+            // allow the new image to render blurred, then unblur for a smooth in
+            requestAnimationFrame(() => setTimeout(() => hero.classList.remove('blur-out'), 80));
+          };
+          hero.src = sources[i];
+        }, 550);
+      }
+      setInterval(next, 4200);
+    })();
   </script>
 </body>
 </html>
